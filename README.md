@@ -44,7 +44,10 @@ Validation is running a classifier on a test data. A classic mistake is to run a
 
 ***6. Give at least 2 evaluation metrics and your average performance for each of them.  Explain an interpretation of your metrics that says something human-understandable about your algorithm’s performance. [relevant rubric item: “usage of evaluation metrics”]***
 
+The evaluation metrics I used are accuracy, precision and recall scores. Accuracy scores measure how much of the samples were correctly classified. According to the sklearn documentation, "precision is a measure of the result relevancy, while recall is a measure of many truly relevant results are returned". Precision and recall are measures of how much false positive and false negatives there are in the classification/prediction (in binary classification).
 
 
 
 
+```
+precision = 4 / ( 4 + 1 ) 
