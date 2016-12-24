@@ -76,6 +76,9 @@ for feature in all_features:
 print "features_list = {}".format(features_list)
 print "Number of features: {}".format(len(features_list))
 
+
+
+
 ### Store to my_dataset for easy export below.
 my_dataset = data_dict
 
@@ -105,10 +108,11 @@ features_test = np.array(features_test)
 labels_train = np.array(labels_train)
 labest_test = np.array(labels_train)
 
-# I decided to perform my classification using a pipeline with a gridsearchcv and the following steps:
+# I decided to perform my classification using a pipeline with a gridsearchcv
+# with stratifiedshufflesplit and the following steps:
 # a. feature scaling using MinMaxScaler
 # b. dimensionality reduction using PCA
-# c. buidling the classifier using Decision Trees, which I found to have the 
+# c. building the classifier using Decision Trees, which I found to have the 
 #	 highest accuracy, precision and recall
 
 # Making the pipeline:
@@ -122,8 +126,9 @@ from sklearn.model_selection import GridSearchCV, StratifiedShuffleSplit
 pipe = make_pipeline(MinMaxScaler(), PCA(random_state=42), DecisionTreeClassifier(random_state=42))
 
 print "Pipe steps: \n{}".format(pipe.steps)
+
 # parameter grid for the DecisionTreeClassifier:
-param_grid = {'pca__n_components': [2, 3, 4, 5, 6], \
+param_grid = {'pca__n_components': [2, 3, 4, 5, 6, 7, 8, 9, 10], \
               'decisiontreeclassifier__min_samples_split': [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]}
 
 # gridsearch and cross-validation:
