@@ -30,20 +30,21 @@ Out[61]: array([ 0.33899221,  0.15391044,  0.11383137,  0.0934518 ,  0.07233598,
 
 ***3. What algorithm did you end up using? What other one(s) did you try? How did model performance differ between algorithms?  [relevant rubric item: “pick an algorithm”]***
 
-I eventually used Decision Trees as classification algorithm after MinMaxScaler for feature scaling and PCA for dimensionality reduction. This classification algorithm gave me the highest precesion and recall. Other classification algorithms have lower accuracy, precision and recall scores. With this algorithm together with feature scaling and selection, I was able to obtain an accuracy of 95%, 
+I eventually used Decision Trees as classification algorithm after MinMaxScaler for feature scaling and PCA for dimensionality reduction. This classification algorithm gave me the highest precesion and recall. Other classification algorithms have lower accuracy, precision and recall scores. With this algorithm together with feature scaling and selection, I was able to obtain an accuracy of 95%, a precision score of 80% and recall score of 80%. Other classifiers didn't go close to these values. 
 
 ![poi_id_results](poi_id_results.png)
 
+***4. What does it mean to tune the parameters of an algorithm, and what can happen if you don’t do this well?  How did you tune the parameters of your particular algorithm? (Some algorithms do not have parameters that you need to tune -- if this is the case for the one you picked, identify and briefly explain how you would have done it for the model that was not your final choice or a different model that does utilize parameter tuning, e.g. a decision tree classifier).  [relevant rubric item: “tune the algorithm”]***
 
-4. What does it mean to tune the parameters of an algorithm, and what can happen if you don’t do this well?  How did you tune the parameters of your particular algorithm? (Some algorithms do not have parameters that you need to tune -- if this is the case for the one you picked, identify and briefly explain how you would have done it for the model that was not your final choice or a different model that does utilize parameter tuning, e.g. a decision tree classifier).  [relevant rubric item: “tune the algorithm”]
+Tuning the parameters for the classification involves determining the optimal parameters available for the particular algorithm that results in the highest metric scores. For example in the decision tree classifier I used, one parameter I played around with is min_samples_split. Using the GridSearchCV function, it is a lot easier to deploy tuning for the optimal parameters. The best estimator can be accessed using ".best_estimator_" attribute for the resulting object after deploying GridSearchCV.
 
-Tuning the parameters for the classification involves determining the optimal parameters available for the particular algorithm that results in the highest metric scores. For example in the decision tree classifier I used, one parameter I played around with is min_split.... I was easier to use the GridSearchCV function to determine the optimal parameters. 
+***5. What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis?  [relevant rubric item: “validation strategy”]***
 
-5. What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis?  [relevant rubric item: “validation strategy”]
+Validation is running a classifier on a test data. A classic mistake is to run a classifier that has been created out of a data set and using the same data set to test the classifier on. This is called overfitting. I did my validation using the train_test_split function in the cross_validation module (or model_selection in newer versions) in sklearn. This way, my training set is different from my test set as the train_test_split function divides the data set into training set and test set. Another cross-validation I employed was the StratifiedShuffleSplit during training of the training set. This function is often used in cases where there is a large imbalance in the distribution of target classes, such as in the Enron data set where there are only a few POIs and a very large number of non-POIs. 
+
+***6. Give at least 2 evaluation metrics and your average performance for each of them.  Explain an interpretation of your metrics that says something human-understandable about your algorithm’s performance. [relevant rubric item: “usage of evaluation metrics”]***
 
 
-
-6. Give at least 2 evaluation metrics and your average performance for each of them.  Explain an interpretation of your metrics that says something human-understandable about your algorithm’s performance. [relevant rubric item: “usage of evaluation metrics”]
 
 
 
