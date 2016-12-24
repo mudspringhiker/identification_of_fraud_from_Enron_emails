@@ -155,7 +155,7 @@ print "Classification report: \n{}".format(classification_report(labels_test, pr
 ### that the version of poi_id.py that you submit can be run on its own and
 ### generates the necessary .pkl files for validating your results.
 
-clf = grid
+clf = grid.best_estimator_
 
 CLF_PICKLE_FILENAME = 'my_classifier.pkl'
 DATASET_PICKLE_FILENAME = 'my_dataset.pkl'
