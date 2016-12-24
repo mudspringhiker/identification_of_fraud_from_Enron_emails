@@ -11,27 +11,8 @@ from tester import dump_classifier_and_data
 ### Task 1: Select what features you'll use.
 ### features_list is a list of strings, each of which is a feature name.
 ### The first feature must be "poi".
-# The following are all the original features (except for email_address).
-features_list = ['poi',
-				 'salary',
- 				 'to_messages',
-       			 'deferral_payments',
- 				 'total_payments',
- 				 'exercised_stock_options',
- 				 'bonus',
- 				 'restricted_stock',
- 				 'shared_receipt_with_poi',
- 				 'restricted_stock_deferred',
- 				 'total_stock_value',
- 				 'expenses',
- 				 'loan_advances',
- 				 'from_messages',
- 				 'other',
- 				 'from_this_person_to_poi',
- 				 'director_fees',
- 				 'deferred_income',
- 				 'long_term_incentive',
- 		 		 'from_poi_to_this_person'] 
+
+# See below for features_list
 
 ### Load the dictionary containing the dataset
 with open("final_project_dataset.pkl", "r") as data_file:
@@ -71,24 +52,29 @@ for name in data_dict:
     
     data_point["fraction_to_poi"] = fraction_to_poi
 
-# After some exploratory data analysis (plotting histograms of all 
-# available features), I decided to remove the following:
-# - deferral_payments
-# - director_fees
-# 
-# The following email features were removed because the fractions
-# were created above:
-# - to_messages
-# - from_messages
-# - from_poi_to_this_person
-# - from_this_person_to_poi
-# The final feature_list is now:
+# Putting all features in data_dict in a variable, all_features:
 
-features_list = ['poi', 'expenses', 'deferred_income', 'long_term_incentive', 
-				 'fraction_from_poi', 'restricted_stock_deferred', 
-				 'shared_receipt_with_poi', 'loan_advances', 'other', 'bonus', 
-				 'total_stock_value', 'restricted_stock', 'salary', 'total_payments', 
-				 'fraction_to_poi', 'exercised_stock_options']
+all_features = []
+c = 0
+for key in data_dict:
+    if c < 1:
+        for feature in data_dict[key]:
+            all_features.append(feature)
+        c += 1
+
+# The following email features will be removed because the fractions
+# were created above:
+
+features_remove = ["poi", "email_address", "from_poi_to_this_person", \
+                   "from_this_person_to_poi", "from_messages", "to_messages"]
+
+features_list = ["poi"]
+for feature in all_features:
+    if feature not in features_remove:
+        features_list.append(feature)
+
+print "features_list = {}".format(features_list)
+print "Number of features: {}".format(len(features_list))
 
 ### Store to my_dataset for easy export below.
 my_dataset = data_dict
@@ -131,32 +117,33 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.decomposition import PCA
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import GridSearchCV, StratifiedShuffleSplit
 
-pipe = make_pipeline(MinMaxScaler(), PCA(n_components=2), DecisionTreeClassifier())
+pipe = make_pipeline(MinMaxScaler(), PCA(random_state=42), DecisionTreeClassifier(random_state=42))
 
+print "Pipe steps: \n{}".format(pipe.steps)
 # parameter grid for the DecisionTreeClassifier:
-param_grid = {'decisiontreeclassifier__min_samples_split': [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]}
+param_grid = {'pca__n_components': [2, 3, 4, 5, 6], \
+              'decisiontreeclassifier__min_samples_split': [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]}
 
 # gridsearch and cross-validation:
-grid = GridSearchCV(pipe, param_grid=param_grid, cv=5)
+cv = StratifiedShuffleSplit(n_splits=5, test_size=0.2, random_state=42)
+grid = GridSearchCV(pipe, param_grid=param_grid, cv=cv)
 
 # fitting:
 grid.fit(features_train, labels_train)
 
 # evaluation metrics:
+from sklearn.metrics import confusion_matrix, recall_score, precision_score, classification_report
+
 print "Test score: {:.2f}".format(grid.score(features_test, labels_test))
 print "Best cross-validation accuracy: {:.2f}".format(grid.best_score_)
 print "Best parameters: {}".format(grid.best_params_)
-print ""
-
-from sklearn.metrics import confusion_matrix, recall_score, precision_score
 pred = grid.predict(features_test)
-print "Confusion matrix: \n", confusion_matrix(pred, labels_test) 
-print "Recall score: {:.2f}".format(recall_score(pred, labels_test))
-print "Precision score: {:.2f}".format(precision_score(pred, labels_test))
-from sklearn.metrics import classification_report
-print "Classification report: \n", classification_report(pred, labels_test)
+print "Confusion matrix: \n{}".format(confusion_matrix(labels_test, pred))
+print "Recall score: {:.2f}".format(recall_score(labels_test, pred))
+print "Precision score: {:.2f}".format(precision_score(labels_test, pred))
+print "Classification report: \n{}".format(classification_report(labels_test, pred))
 
 ### Task 6: Dump your classifier, dataset, and features_list so anyone can
 ### check your results. You do not need to change anything below, but make sure
