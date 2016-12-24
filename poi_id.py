@@ -127,7 +127,7 @@ pipe = make_pipeline(MinMaxScaler(), PCA(random_state=42), DecisionTreeClassifie
 
 print "Pipe steps: \n{}".format(pipe.steps)
 
-# parameter grid for the DecisionTreeClassifier:
+# parameter grid for PCA and DecisionTreeClassifier:
 param_grid = {'pca__n_components': [2, 3, 4, 5, 6, 7, 8, 9, 10], \
               'decisiontreeclassifier__min_samples_split': [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]}
 
