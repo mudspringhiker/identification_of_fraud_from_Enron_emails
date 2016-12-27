@@ -34,6 +34,8 @@ I eventually used Decision Trees as classification algorithm after MinMaxScaler 
 
 ![poi_id_results](poi_id_results.png)
 
+My ![IPython notebook](https://github.com/mudspringhiker/enron_poi_id_machine_learning_project/blob/master/classifier_optimization.ipynb) delineates how I came up with the best classifier. 
+
 ***4. What does it mean to tune the parameters of an algorithm, and what can happen if you don’t do this well?  How did you tune the parameters of your particular algorithm? (Some algorithms do not have parameters that you need to tune -- if this is the case for the one you picked, identify and briefly explain how you would have done it for the model that was not your final choice or a different model that does utilize parameter tuning, e.g. a decision tree classifier).  [relevant rubric item: “tune the algorithm”]***
 
 Tuning the parameters for the classification involves determining the optimal parameters available for the particular algorithm that results in the highest metric scores. For example in the decision tree classifier I used, one parameter I played around with is min_samples_split. Using the GridSearchCV function, it is a lot easier to deploy tuning for the optimal parameters. The best estimator can be accessed using ".best_estimator_" attribute for the resulting object after deploying GridSearchCV.
