@@ -1,4 +1,4 @@
-# Identification of Person-of-Interest in the Enron Scandal
+# Documentation of Work
 
 This is a project for the Udacity Introduction to Machine Learning course. It involves using machine learning techniques to identify persons of interest in the Enron Scandal, which is a case about corporate fraud. For more information on the Enron Scandal, please click [here](https://en.wikipedia.org/wiki/Enron_scandal).
 
@@ -61,3 +61,16 @@ recall = true positives / (true positives + false negatives)
           =0.80
 ```
 Since both of these scores are about the same, I can say that my algorithm is good at flagging a POI (80% of the time), but there's also a chance that it might flag a non-POI and miss a POI, although low. In short, both false positive and false negative rates are low. I can identify POIs reliably. If someone is not a POI, it is certainly not a POI. Also, my F1-score is high. 
+
+# Bibliography
+
+Udacity Machine Learning Course:
+https://classroom.udacity.com/nanodegrees/nd002/parts/0021345409/modules/317428862475460/lessons/2410328539/concepts/24185385370923#
+
+“An Introduction to Machine Learning with Python by Andreas C. Müller and Sarah Guido (O’Reilly). Copyright 2017 Sarah Guido and Andreas Müller, 978-1-449-36941-5.”
+
+Enron scandal, Wikipedia:
+https://en.wikipedia.org/wiki/Enron_scandal
+
+Enron: The Smartest Guys in the Room. Dir. Alex Gibney. Jigsaw Productions, 2005. Film.
+
