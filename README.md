@@ -40,14 +40,24 @@ Tuning the parameters for the classification involves determining the optimal pa
 
 ***5. What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis?  [relevant rubric item: “validation strategy”]***
 
-Validation is running a classifier on a test data. A classic mistake is to run a classifier that has been created out of a data set and using the same data set to test the classifier on. This is called overfitting. I did my validation using the train_test_split function in the cross_validation module (or model_selection in newer versions) in sklearn. This way, my training set is different from my test set as the train_test_split function divides the data set into training set and test set. Another cross-validation I employed was the StratifiedShuffleSplit during training of the training set. This function is often used in cases where there is a large imbalance in the distribution of target classes, such as in the Enron data set where there are only a few POIs and a very large number of non-POIs. 
+Validation is running a classifier on a test data. A classic mistake is to run a classifier that has been created out of a data set and using the same data set to test the classifier on. This is called overfitting. I did my validation using the train_test_split function in the cross_validation module (or model_selection in newer versions) in sklearn. This way, my training set is different from my test set as the train_test_split function divides the data set into training set and test set. Another cross-validation I employed was the StratifiedShuffleSplit during training of the training set. This function is often used in cases where there is a large imbalance in the distribution of target classes, such as in the Enron data set where there are only a few POIs and a very large number of non-POIs. Using StratifiedShuffleSplit, I was able to obtain a higher precision and recall scores.
 
 ***6. Give at least 2 evaluation metrics and your average performance for each of them.  Explain an interpretation of your metrics that says something human-understandable about your algorithm’s performance. [relevant rubric item: “usage of evaluation metrics”]***
 
-The evaluation metrics I used are accuracy, precision and recall scores. Accuracy scores measure how much of the samples were correctly classified. According to the sklearn documentation, "precision is a measure of the result relevancy, while recall is a measure of many truly relevant results are returned". Precision and recall are measures of how much false positive and false negatives there are in the classification/prediction (in binary classification).
-
-
-
+The evaluation metrics I used are accuracy, precision and recall scores. Accuracy scores measure how much of the samples were correctly classified. According to the sklearn documentation, "precision is a measure of the result relevancy, while recall is a measure of many truly relevant results are returned". Precision and recall are measures of how much false positive and false negatives there are in the classification/prediction (in binary classification). 
 
 ```
-precision = 4 / ( 4 + 1 ) 
+In[84]: confusion_matrix(labels_test, pred)
+        array([[37,  1],
+               [ 1,  4]])
+```
+As shown by the confusion matrix I obtained from the analysis, out of five real POIs, I obtained 4 true positives; out of 38 non-POIs, I obtained 37 true negatives. There were one false negative and one false positive.
+```
+precision = true positives / (true positives + false positives)
+          = 4 / ( 4 + 1 )
+          = 0.80
+recall = true positives / (true positives + false negatives)
+          = 4 / ( 4 + 1 )
+          =0.80
+```
+Since both of these scores are about the same, I can say that my algorithm is good at flagging a POI (80% of the time), but there's also a chance that it might flag a non-POI and miss a POI, although low. In short, both false positive and false negative rates are low. I can identify POIs reliably. If someone is not a POI, it is certainly not a POI. Also, my F1-score is high. 
