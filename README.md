@@ -2,7 +2,7 @@
 
 This is a project for the Udacity Introduction to Machine Learning course. It involves using machine learning techniques to identify persons of interest in the Enron Scandal, which is a case about corporate fraud. For more information on the Enron Scandal, please click [here](https://en.wikipedia.org/wiki/Enron_scandal).
 
-For full details on how I chose my algorithm, please see my [IPython notebook](https://github.com/mudspringhiker/enron_poi_id_machine_learning_project/blob/master/classifier_optimization.ipynb).
+For full details on how I chose my algorithm, please see my [IPython notebook](https://github.com/mudspringhiker/enron_poi_id_machine_learning_project/blob/master/classifier_comparison.ipynb).
 
 **Answers to questions for the project:**
 
