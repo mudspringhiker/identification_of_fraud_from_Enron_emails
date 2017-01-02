@@ -85,10 +85,7 @@ for key in data_dict:
 ### Make a list of all features to be removed.
 
 features_remove = ["poi", "email_address", "from_poi_to_this_person", \
-                   "from_this_person_to_poi", "from_messages", "to_messages", \
-                   "total_payments", "director_fees", "loan_advances", "bonus", \
-                   "shared_receipt_with_poi", "salary", "long_term_incentive", \
-                   "other"]
+                   "from_this_person_to_poi", "from_messages", "to_messages"]
 
 ### Create "features_list", the features to be used to create the classifier. 
 ### It must have "poi" as the first element.
@@ -131,32 +128,22 @@ for train_idx, test_idx in cv.split(features, labels):
 
 ### Import modules
 
-from sklearn.pipeline import make_pipeline
+from sklearn.pipeline import make_pipeline, Pipeline
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.feature_selection import SelectKBest
-from sklearn.decomposition import PCA
 from sklearn.model_selection import GridSearchCV
 from sklearn.naive_bayes import GaussianNB
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.svm import SVC
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.ensemble import AdaBoostClassifier
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
 
-pipe = make_pipeline(MinMaxScaler(), PCA(random_state=42), DecisionTreeClassifier(random_state=42,))
+# Make pipeline:
+pipe = make_pipeline(MinMaxScaler(), SelectKBest(), GaussianNB())
 
 print "Pipe steps: \n{}".format(pipe.steps)
 
-# parameter grid for PCA:
-param_grid = {'pca__n_components': range(2,5), \
-              'decisiontreeclassifier__min_samples_split': range(2, 20),
-              'decisiontreeclassifier__max_depth': range(2, 10, 2),
-              'decisiontreeclassifier__criterion': ["entropy"],
-              'decisiontreeclassifier__class_weight': [None, "balanced"]}
+# parameter grid for SelectKBest:
+param_grid = {'selectkbest__k': range(5,16)}
 
 # gridsearch and cross-validation:
-grid = GridSearchCV(pipe, param_grid=param_grid)
+grid = GridSearchCV(pipe, param_grid=param_grid, cv=15)
 
 # fitting:
 grid.fit(features_train, labels_train)
@@ -184,9 +171,6 @@ print clf
 CLF_PICKLE_FILENAME = 'my_classifier.pkl'
 DATASET_PICKLE_FILENAME = 'my_dataset.pkl'
 FEATURE_LIST_FILENAME = 'my_feature_list.pkl'
-
-from tester import test_classifier
-
 
 def main():
 	dump_classifier_and_data(clf, my_dataset, features_list)
