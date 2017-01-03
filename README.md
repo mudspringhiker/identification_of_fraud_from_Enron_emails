@@ -45,6 +45,8 @@ PCA as feature selection:
 - Naive Bayes
 - AdaBoost
 
+I then tried to optimize these classifiers, using the method described below. But in the end, I chose AdaBoostClassifier, which gave me the highest scores using the tester.py program provided to measure the algorithm's accuracy, precision and recall.
+
 ***4. What does it mean to tune the parameters of an algorithm, and what can happen if you don’t do this well?  How did you tune the parameters of your particular algorithm? (Some algorithms do not have parameters that you need to tune -- if this is the case for the one you picked, identify and briefly explain how you would have done it for the model that was not your final choice or a different model that does utilize parameter tuning, e.g. a decision tree classifier).  [relevant rubric item: “tune the algorithm”]***
 
 Tuning the parameters for the classification involves determining the optimal parameters available for the particular algorithm that results in the highest metric scores. In AdaBoostClassifier, there are various parameters that can be modified including base_estimator, n_estimators, learning_rate, algorith, and random_state. Using the GridSearchCV function, it is a lot easier to deploy tuning for the optimal parameters. The best estimator can be accessed using ".best_estimator_" attribute for the resulting object after deploying GridSearchCV. If the parameters are not tuned, underfitting or overfitting might occur. 
