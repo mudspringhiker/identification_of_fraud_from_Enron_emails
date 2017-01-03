@@ -20,7 +20,7 @@ Scaling for the Enron data is critical as discussed in the class--since the feat
 
 For feature selection, I explored SelectKBest and principal component analysis (PCA). PCA is dimensionality reduction tool that can incorporate information from original features into new derived features (which are called components). SelectKBest is a feature selection technique that chooses the best features according to k highest scores. In the end, I chose SelectKBest. This was after obtaining all metric scores using MinMaxScaler, either SelectKBest or PCA and classifiers in a pipeline, so it came together with whatever classifier gave the highest metric scores. The feature importances are shown below:
 
-![feature_importances](feature_importances.png)(https://github.com/mudspringhiker/enron_poi_id_machine_learning_project/blob/master/classifier_comparison.ipynb)
+![feature_importances](feature_importances.png)
 
 (For details on how I obtained this, see [IPython notebook](https://github.com/mudspringhiker/enron_poi_id_machine_learning_project/blob/master/classifier_comparison.ipynb).
 
