@@ -105,18 +105,7 @@ print "Features removed: {}".format(features_remove)
 data = featureFormat(my_dataset, features_list, sort_keys = True)
 labels, features = targetFeatureSplit(data)
 
-### Task 4: Try a variety of classifiers
-### Please name your classifier clf for easy export below.
-### Note that if you want to do PCA or other multi-stage operations,
-### you'll need to use Pipelines. For more info:
-### http://scikit-learn.org/stable/modules/pipeline.html
-
-### Task 5: Tune your classifier to achieve better than .3 precision and recall 
-### using our testing script. Check the tester.py script in the final project
-### folder for details on the evaluation method, especially the test_classifier
-### function. Because of the small size of the dataset, the script uses
-### stratified shuffle split cross validation. For more info: 
-### http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.StratifiedShuffleSplit.html
+### Create the training and test sets
 
 from sklearn.model_selection import StratifiedShuffleSplit
 features = np.array(features)
@@ -138,7 +127,7 @@ pipe = make_pipeline(MinMaxScaler(), SelectKBest(), AdaBoostClassifier(random_st
 
 print "Pipe steps: \n{}".format(pipe.steps)
 
-# parameter grid for PCA:
+# parameter grid for selectkbest and classifier:
 param_grid = {'selectkbest__k': range(5,15), \
               'adaboostclassifier__n_estimators': [5, 10, 20, 30, 40, 50]}
 
@@ -149,7 +138,7 @@ grid = GridSearchCV(pipe, param_grid=param_grid, cv=5)
 grid.fit(features_train, labels_train)
 
 # evaluation metrics:
-from sklearn.metrics import confusion_matrix, recall_score, precision_score, classification_report
+from sklearn.metrics import confusion_matrix, recall_score, precision_score
 
 print "Test score: {:.2f}".format(grid.score(features_test, labels_test))
 print "Best cross-validation accuracy: {:.2f}".format(grid.best_score_)
@@ -158,7 +147,7 @@ pred = grid.predict(features_test)
 print "Confusion matrix: \n{}".format(confusion_matrix(labels_test, pred))
 print "Recall score: {:.2f}".format(recall_score(labels_test, pred))
 print "Precision score: {:.2f}".format(precision_score(labels_test, pred))
-print "Classification report: \n{}".format(classification_report(labels_test, pred))
+
 
 ### Task 6: Dump your classifier, dataset, and features_list so anyone can
 ### check your results. You do not need to change anything below, but make sure
