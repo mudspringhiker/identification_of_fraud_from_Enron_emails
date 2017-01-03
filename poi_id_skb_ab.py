@@ -140,7 +140,7 @@ print "Pipe steps: \n{}".format(pipe.steps)
 
 # parameter grid for PCA:
 param_grid = {'selectkbest__k': range(5,15), \
-              'adaboostclassifier__n_estimators': [10, 20, 30, 40, 50]}
+              'adaboostclassifier__n_estimators': [5, 10, 20, 30, 40, 50]}
 
 # gridsearch and cross-validation:
 grid = GridSearchCV(pipe, param_grid=param_grid, cv=5)

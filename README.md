@@ -20,53 +20,101 @@ Scaling for the Enron data is critical as discussed in the class--since the feat
 
 For feature selection, I explored SelectKBest and principal component analysis (PCA). PCA is dimensionality reduction tool that can incorporate information from original features into new derived features (which are called components). SelectKBest is a feature selection technique that chooses the best features according to k highest scores. In the end, I chose SelectKBest. This was after obtaining all metric scores using MinMaxScaler, either SelectKBest or PCA and classifiers in a pipeline, so it came together with whatever classifier gave the highest metric scores. The feature importances are shown below:
 
+![feature_importances](feature_importances.png)(https://github.com/mudspringhiker/enron_poi_id_machine_learning_project/blob/master/classifier_comparison.ipynb)
 
+(For details on how I obtained this, see [IPython notebook](https://github.com/mudspringhiker/enron_poi_id_machine_learning_project/blob/master/classifier_comparison.ipynb).
 
-
-
+As to how many of these features were used in the final algorithm were the result of gridsearching through the k numbers of features for SelectKBest. The code for this is in [poi_id_skb_ab.py](https://github.com/mudspringhiker/enron_poi_id_machine_learning_project/blob/master/poi_id_skb_ab.py).
 
 ***3. What algorithm did you end up using? What other one(s) did you try? How did model performance differ between algorithms?  [relevant rubric item: “pick an algorithm”]***
 
-I eventually used Decision Trees as classification algorithm after MinMaxScaler for feature scaling and PCA for dimensionality reduction. This classification algorithm gave me the highest precesion and recall. Other classification algorithms have lower accuracy, precision and recall scores. With this algorithm together with feature scaling and selection, I was able to obtain an accuracy of 95%, a precision score of 80% and recall score of 80%. Other classifiers didn't go close to these values. 
+I eventually used AdaBoostClassifier. The following table shows the results of my preliminary exploration on various classifiers. The top shows metrics from using SelectKBest as feature selection and the bottom table shows metrics from using PCA.
 
-![poi_id_results](poi_id_results.png)
+![classifier_comparison](classifier_comparison.png)
 
-My [IPython notebook](https://github.com/mudspringhiker/enron_poi_id_machine_learning_project/blob/master/classifier_optimization.ipynb) delineates how I came up with the best classifier. 
+These results were obtained by looping over the various classifiers I can possibly use as a beginner in machine learning.
+
+My [IPython notebook](https://github.com/mudspringhiker/enron_poi_id_machine_learning_project/blob/master/classifier_comparison.ipynb) shows the code for this. 
 
 ***4. What does it mean to tune the parameters of an algorithm, and what can happen if you don’t do this well?  How did you tune the parameters of your particular algorithm? (Some algorithms do not have parameters that you need to tune -- if this is the case for the one you picked, identify and briefly explain how you would have done it for the model that was not your final choice or a different model that does utilize parameter tuning, e.g. a decision tree classifier).  [relevant rubric item: “tune the algorithm”]***
 
-Tuning the parameters for the classification involves determining the optimal parameters available for the particular algorithm that results in the highest metric scores. For example in the decision tree classifier I used, one parameter I played around with is min_samples_split. Using the GridSearchCV function, it is a lot easier to deploy tuning for the optimal parameters. The best estimator can be accessed using ".best_estimator_" attribute for the resulting object after deploying GridSearchCV. If the parameters are not tuned, underfitting or overfitting might occur. 
+Tuning the parameters for the classification involves determining the optimal parameters available for the particular algorithm that results in the highest metric scores. In AdaBoostClassifier, there are various parameters that can be modified including base_estimator, n_estimators, learning_rate, algorith, and random_state. Using the GridSearchCV function, it is a lot easier to deploy tuning for the optimal parameters. The best estimator can be accessed using ".best_estimator_" attribute for the resulting object after deploying GridSearchCV. If the parameters are not tuned, underfitting or overfitting might occur. 
+
+For my AdaBoostClassifier optimization, I tinkered only with n_estimators and kept random_state fixed to make it produce the same result each time I run it. In the initial stages of my classifier exploration, the value of n_estimators used was the default, 50, since I did not specify its value. Running a gridsearch on this parameter allowed me to see that the scores can get better when n_estimators is decreased to 10. 
 
 ***5. What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis?  [relevant rubric item: “validation strategy”]***
 
-Validation is running a classifier on a test data. A classic mistake is to run a classifier that has been created out of a data set and using the same data set to test the classifier on. This is called overfitting. I did my validation using the train_test_split function in the cross_validation module (or model_selection in newer versions) in sklearn. This way, my training set is different from my test set as the train_test_split function divides the data set into training set and test set. Another cross-validation I employed was the StratifiedShuffleSplit during training of the training set. This function is often used in cases where there is a large imbalance in the distribution of target classes, such as in the Enron data set where there are only a few POIs and a very large number of non-POIs. Using StratifiedShuffleSplit, I was able to obtain a higher precision and recall scores.
+Validation is making sure that the algorithm that was generated is tested on data that the algorithm has not encountered before. It is the reason why the data is split into training and test sets. The algorithm is derived from the training set and is tested on the test set. It is important to see how well the algorithm can make predictions on "new set of data". A classic mistake is to run an algorithm that has been created out of a data set and using the same data set to test the classifier on. This is called overfitting. 
+
+To create the algorithm/classifier for my project, I used StratifiedShuffleSplit which is the recommended iterator for datasets with a large imbalance in the distribution of the target classes, such as the Enron email and financial dataset in which there is much larger number of non-POI than POI. In StratifiedShuffleSplit, the dataset is reshuffled and split "n_splits" (or "n_iter" in old version of StratifiedShuffleSplit as of this writing) times into test sets and training sets. In my code, the data is split and reshuffled 1000 times. The default test_size is 0.1. 
+
+```
+from sklearn.model_selection import StratifiedShuffleSplit
+features = np.array(features)
+labels = np.array(labels)
+cv = StratifiedShuffleSplit(n_splits=1000, random_state=42)
+for train_idx, test_idx in cv.split(features, labels):
+    features_train, features_test = features[train_idx], features[test_idx]
+    labels_train, labels_test = labels[train_idx], labels[test_idx]
+```
+
+If I have 143 data points (since three were removed out of 146 initial datapoints, see question 1 above), I would have 128 data points allocated to training and 15 data points allocated to testing. There are 1000 sets of these two sets. The algorithm is calculated from 1000 training sets, and tested on 1000 test sets. This makes sure that the algorithm is not biased over the over-represented class.
 
 ***6. Give at least 2 evaluation metrics and your average performance for each of them.  Explain an interpretation of your metrics that says something human-understandable about your algorithm’s performance. [relevant rubric item: “usage of evaluation metrics”]***
 
-The evaluation metrics I used are accuracy, precision and recall scores. Accuracy scores measure how much of the samples were correctly classified. According to the sklearn documentation, "precision is a measure of the result relevancy, while recall is a measure of many truly relevant results are returned". Precision and recall are measures of how much false positive and false negatives there are in the classification/prediction (in binary classification). 
+The evaluation metrics I used are accuracy, precision and recall scores, among others. After coming up with my classifier, the scores I obtained are:
 
 ```
-In[84]: confusion_matrix(labels_test, pred)
-        array([[37,  1],
-               [ 1,  4]])
+Accuracy score = 0.93
+Recall score = 1.00
+Precision score = 0.67
 ```
-As shown by the confusion matrix I obtained from the analysis, out of five real POIs, I obtained 4 true positives; out of 38 non-POIs, I obtained 37 true negatives. There were one false negative and one false positive.
+
+The tester.py results are:
+
 ```
-precision = true positives / (true positives + false positives)
-          = 4 / ( 4 + 1 )
-          = 0.80
-recall = true positives / (true positives + false negatives)
-          = 4 / ( 4 + 1 )
-          =0.80
-```
-Since both of these scores are about the same, I can say that my algorithm is good at flagging a POI (80% of the time), but there's also a chance that it might flag a non-POI and miss a POI, although low. In short, both false positive and false negative rates are low. I can identify POIs reliably. If someone is not a POI, it is certainly not a POI. Also, my F1-score is high. 
+Accuracy score = 0.86
+Recall score = 0.33
+Precision score = 0.47
+````
+
+![results_metrics](result_metrics.png)
+
+Precision and recall are relevant only if you are doing a binary classification, which is what was done in the project. Precision is a measure of how many true positives there are in the predicted positive results of an algorithm. Recall is the measure of how much the algorithm was able to identify all the real positives. 
+
+For my first results, recall is a lot higher than precision, which means that when a real POI shows up in the test set, the algorithm is able to identify him/her. But sometimes, it will get some false positives where non-POIs get flagged. In my tester.py results, recall is a little lower than precision, which means that when ever a POI gets flagged in the test set, it's highly likely that it is a real POI an not a false alarm. But sometimes, the algorithm can miss real POIs.
+
 
 # Bibliography
 
 Udacity Machine Learning Course:
 https://classroom.udacity.com/nanodegrees/nd002/parts/0021345409/modules/317428862475460/lessons/2410328539/concepts/24185385370923#
 
+SelectKBest: http://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SelectKBest.html
+
+StratifiedShuffleSplit: http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedShuffleSplit.html#sklearn.model_selection.StratifiedShuffleSplit
+
+Classifier Comparison: http://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html
+
+K-Nearest Neighbors: http://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html
+
+SVM: http://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html
+
+Decision Trees: http://scikit-learn.org/stable/modules/tree.html
+
+Naive Bayes: http://scikit-learn.org/stable/modules/naive_bayes.html
+
+AdaBoostClassifier: http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.AdaBoostClassifier.html
+
+Random Forest: http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html
+
+Logistic Regression: http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
+
+GridSearchCV: http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html
+
 “An Introduction to Machine Learning with Python by Andreas C. Müller and Sarah Guido (O’Reilly). Copyright 2017 Sarah Guido and Andreas Müller, 978-1-449-36941-5.”
+
+Precision and Recall: https://en.wikipedia.org/wiki/Precision_and_recall
 
 Enron scandal, Wikipedia:
 https://en.wikipedia.org/wiki/Enron_scandal
