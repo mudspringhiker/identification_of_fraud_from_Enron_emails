@@ -32,15 +32,44 @@ I eventually used AdaBoostClassifier. The following table shows the results of m
 
 ![classifier_comparison](classifier_comparison.png)
 
-These results were obtained by looping over the various classifiers I can possibly use as a beginner in machine learning.
+These results were obtained by looping over the various classifiers I can possibly use as a beginner in machine learning. My [IPython notebook](https://github.com/mudspringhiker/enron_poi_id_machine_learning_project/blob/master/classifier_comparison.ipynb) shows the code for this. But from these results, I was able to see that the best classifiers are:
 
-My [IPython notebook](https://github.com/mudspringhiker/enron_poi_id_machine_learning_project/blob/master/classifier_comparison.ipynb) shows the code for this. 
+SelectKBest feature selection:
+- AdaBoost
+- Naive Bayes
+- Logistic Regression
+- Random Forest
+
+PCA as feature selection:
+- KNN
+- Naive Bayes
+- AdaBoost
 
 ***4. What does it mean to tune the parameters of an algorithm, and what can happen if you don’t do this well?  How did you tune the parameters of your particular algorithm? (Some algorithms do not have parameters that you need to tune -- if this is the case for the one you picked, identify and briefly explain how you would have done it for the model that was not your final choice or a different model that does utilize parameter tuning, e.g. a decision tree classifier).  [relevant rubric item: “tune the algorithm”]***
 
 Tuning the parameters for the classification involves determining the optimal parameters available for the particular algorithm that results in the highest metric scores. In AdaBoostClassifier, there are various parameters that can be modified including base_estimator, n_estimators, learning_rate, algorith, and random_state. Using the GridSearchCV function, it is a lot easier to deploy tuning for the optimal parameters. The best estimator can be accessed using ".best_estimator_" attribute for the resulting object after deploying GridSearchCV. If the parameters are not tuned, underfitting or overfitting might occur. 
 
 For my AdaBoostClassifier optimization, I tinkered only with n_estimators and kept random_state fixed to make it produce the same result each time I run it. In the initial stages of my classifier exploration, the value of n_estimators used was the default, 50, since I did not specify its value. Running a gridsearch on this parameter allowed me to see that the scores can get better when n_estimators is decreased to 10. 
+
+```
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.feature_selection import SelectKBest
+from sklearn.model_selection import GridSearchCV
+from sklearn.ensemble import AdaBoostClassifier
+
+pipe = make_pipeline(MinMaxScaler(), SelectKBest(), AdaBoostClassifier(random_state=42))
+
+# parameter grid for selectkbest and classifier:
+param_grid = {'selectkbest__k': range(5,15), \
+              'adaboostclassifier__n_estimators': [5, 10, 20, 30, 40, 50]}
+
+# gridsearch and cross-validation:
+grid = GridSearchCV(pipe, param_grid=param_grid, cv=5)
+
+# fitting:
+grid.fit(features_train, labels_train)
+```
 
 ***5. What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis?  [relevant rubric item: “validation strategy”]***
 
