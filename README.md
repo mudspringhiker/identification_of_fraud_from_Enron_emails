@@ -26,7 +26,7 @@ For feature selection, I explored SelectKBest and principal component analysis (
 
 (For details on how I obtained this, see [IPython notebook](https://github.com/mudspringhiker/enron_poi_id_machine_learning_project/blob/master/classifier_comparison.ipynb).
 
-As to how many of these features were used in the final algorithm were the result of gridsearching through the k numbers of features for SelectKBest. The code for this is in [poi_id_skb_ab.py](https://github.com/mudspringhiker/enron_poi_id_machine_learning_project/blob/master/poi_id_skb_ab.py).
+As to how many of these features were used in the final algorithm were the result of gridsearching through the k numbers of features for SelectKBest. The code for this is in [poi_id_skb_ab.py](https://github.com/mudspringhiker/enron_poi_id_machine_learning_project/blob/master/poi_id_skb_ab.py) or see code below, for answer to question no. 4. After running the code, it appears that the optimal k is 14 (see figure included in answer for question 6). (This can also be accessed by using the best_estimator_ attribute for the object created after fitting.)
 
 ***3. What algorithm did you end up using? What other one(s) did you try? How did model performance differ between algorithms?  [relevant rubric item: “pick an algorithm”]***
 
