@@ -111,7 +111,7 @@ Precision score = 0.47
 
 Precision and recall are relevant only if you are doing a binary classification, which is what was done in the project. Precision is a measure of how many true positives there are in the predicted positive results of an algorithm. Recall is the measure of how much the algorithm was able to identify all the real positives. 
 
-For my first results, recall is a lot higher than precision, which means that when a real POI shows up in the test set, the algorithm is able to identify him/her. But sometimes, it will get some false positives where non-POIs get flagged. In my tester.py results, recall is a little lower than precision, which means that whenever a POI gets flagged in the test set, it's highly likely that it is a real POI an not a false alarm. But sometimes, the algorithm can miss real POIs.
+For my first results (after developing the algorithm), recall is a lot higher than precision, which means that when a real POI shows up in the test set, the algorithm is able to identify him/her. But sometimes, it will get some false positives where non-POIs get flagged. In my tester.py results, recall is a little lower than precision, which means that whenever a POI gets flagged in the test set, it's highly likely that it is a real POI and not a false alarm. But sometimes, the algorithm can miss real POIs.
 
 
 # Bibliography
