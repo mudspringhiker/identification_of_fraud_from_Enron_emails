@@ -84,8 +84,7 @@ for key in data_dict:
 
 ### Make a list of all features to be removed.
 
-features_remove = ["poi", "email_address", "from_poi_to_this_person", \
-                   "from_this_person_to_poi", "from_messages", "to_messages"]
+features_remove = ["poi", "email_address", "fraction_from_poi", "fraction_to_poi"]
 
 ### Create "features_list", the features to be used to create the classifier.
 ### It must have "poi" as the first element.
@@ -143,7 +142,7 @@ from sklearn.metrics import confusion_matrix, recall_score, precision_score
 print "Test score: {:.2f}".format(grid.score(features_test, labels_test))
 print "Best cross-validation accuracy: {:.2f}".format(grid.best_score_)
 print "Best parameters: {}".format(grid.best_params_)
-pred = grid.best_estimator_.predict(features_test)
+pred = grid.predict(features_test)
 print "Confusion matrix: \n{}".format(confusion_matrix(labels_test, pred))
 print "Recall score: {:.2f}".format(recall_score(labels_test, pred))
 print "Precision score: {:.2f}".format(precision_score(labels_test, pred))

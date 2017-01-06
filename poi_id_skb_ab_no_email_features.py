@@ -40,34 +40,8 @@ data_dict['BHATNAGAR SANJAY']['total_payments'] = 137864
 data_dict['BHATNAGAR SANJAY']['total_stock_value'] = 15456290
 
 
-### Create new feature(s)
+### Create new feature(s) = removed
 
-def computeFraction(poi_messages, all_messages):
-    """ given a number messages to/from POI (numerator)
-        and number of all messages to/from a person (denominator),
-        return the fraction of messages to/from that person
-        that are from/to a POI
-    """
-    if poi_messages != 'NaN' or all_messages != 'NaN':
-        fraction = float(poi_messages) / float(all_messages)
-    else:
-        fraction = 0
-    return fraction
-
-for name in data_dict:
-    data_point = data_dict[name]
-
-    from_poi_to_this_person = data_point["from_poi_to_this_person"]
-    to_messages = data_point["to_messages"]
-    fraction_from_poi = computeFraction(from_poi_to_this_person, to_messages)
-
-    data_point["fraction_from_poi"] = fraction_from_poi
-
-    from_this_person_to_poi = data_point["from_this_person_to_poi"]
-    from_messages = data_point["from_messages"]
-    fraction_to_poi = computeFraction( from_this_person_to_poi, from_messages )
-
-    data_point["fraction_to_poi"] = fraction_to_poi
 
 ### Store dataset to my_dataset for easy export.
 my_dataset = data_dict
@@ -84,8 +58,7 @@ for key in data_dict:
 
 ### Make a list of all features to be removed.
 
-features_remove = ["poi", "email_address", "from_poi_to_this_person", \
-                   "from_this_person_to_poi", "from_messages", "to_messages"]
+features_remove = ["poi", "email_address", "from_poi_to_this_person", "from_this_person_to_poi", "from_messages", "to_messages"]
 
 ### Create "features_list", the features to be used to create the classifier.
 ### It must have "poi" as the first element.
@@ -143,7 +116,7 @@ from sklearn.metrics import confusion_matrix, recall_score, precision_score
 print "Test score: {:.2f}".format(grid.score(features_test, labels_test))
 print "Best cross-validation accuracy: {:.2f}".format(grid.best_score_)
 print "Best parameters: {}".format(grid.best_params_)
-pred = grid.best_estimator_.predict(features_test)
+pred = grid.predict(features_test)
 print "Confusion matrix: \n{}".format(confusion_matrix(labels_test, pred))
 print "Recall score: {:.2f}".format(recall_score(labels_test, pred))
 print "Precision score: {:.2f}".format(precision_score(labels_test, pred))

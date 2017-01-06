@@ -1,0 +1,273 @@
+Last login: Fri Jan  6 10:30:07 on ttys000
+alonavarshal ~ $ cd DataScience/udacity/dand/intro_to_ml_project/
+alonavarshal (master *) intro_to_ml_project $ ls
+README.md
+Tester.ipynb
+classifier_comparison.ipynb
+classifier_comparison.png
+classifier_comparison_without_engineered_features.ipynb
+enron61702insiderpay.xlsx
+enron_data.csv
+feature_format.py
+feature_format.pyc
+feature_importances.png
+final_project_dataset.pkl
+my_classifier.pkl
+my_dataset.pkl
+my_feature_list.pkl
+poi_id.py
+poi_id_pca_knn.py
+poi_id_skb_ab.py
+poi_id_skb_ab_no_eng_features.py
+poi_id_skb_nb.py
+result_metrics.png
+tester.py
+tester.pyc
+tools
+alonavarshal (master *) intro_to_ml_project $ python tester.py
+Pipeline(steps=[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('selectkbest', SelectKBest(k=14, score_func=<function f_classif at 0x10a0caa28>)), ('adaboostclassifier', AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+          learning_rate=1.0, n_estimators=10, random_state=42))])
+	Accuracy: 0.86153	Precision: 0.47224	Recall: 0.32750	F1: 0.38677	F2: 0.34889
+	Total predictions: 15000	True positives:  655	False positives:  732	False negatives: 1345	True negatives: 12268
+
+alonavarshal (master *) intro_to_ml_project $ python poi_id_skb_ab_no_eng_features.py 
+features_list = ['poi', 'to_messages', 'deferral_payments', 'expenses', 'deferred_income', 'long_term_incentive', 'restricted_stock_deferred', 'shared_receipt_with_poi', 'loan_advances', 'from_messages', 'other', 'director_fees', 'bonus', 'total_stock_value', 'from_poi_to_this_person', 'from_this_person_to_poi', 'restricted_stock', 'salary', 'total_payments', 'exercised_stock_options']
+Number of features: 20
+Features removed: ['poi', 'email_address', 'fraction_from_poi', 'fraction_to_poi']
+Pipe steps: 
+[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('selectkbest', SelectKBest(k=10, score_func=<function f_classif at 0x10a0d3a28>)), ('adaboostclassifier', AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+          learning_rate=1.0, n_estimators=50, random_state=42))]
+Test score: 1.00
+Best cross-validation accuracy: 0.86
+Best parameters: {'selectkbest__k': 8, 'adaboostclassifier__n_estimators': 5}
+Confusion matrix: 
+[[13  0]
+ [ 0  2]]
+Recall score: 1.00
+Precision score: 1.00
+Pipeline(steps=[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('selectkbest', SelectKBest(k=8, score_func=<function f_classif at 0x10a0d3a28>)), ('adaboostclassifier', AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+          learning_rate=1.0, n_estimators=5, random_state=42))])
+alonavarshal (master *) intro_to_ml_project $ python tester.py
+Pipeline(steps=[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('selectkbest', SelectKBest(k=8, score_func=<function f_classif at 0x109fc4a28>)), ('adaboostclassifier', AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+          learning_rate=1.0, n_estimators=5, random_state=42))])
+	Accuracy: 0.85680	Precision: 0.40415	Recall: 0.15600	F1: 0.22511	F2: 0.17784
+	Total predictions: 15000	True positives:  312	False positives:  460	False negatives: 1688	True negatives: 12540
+
+alonavarshal (master *) intro_to_ml_project $ python poi_id_skb_ab_no_email_features.py 
+Traceback (most recent call last):
+  File "poi_id_skb_ab_no_email_features.py", line 53, in <module>
+    for feature in all_features:
+NameError: name 'all_features' is not defined
+alonavarshal (master *) intro_to_ml_project $ python poi_id_skb_ab_no_email_features.py 
+features_list = ['poi', 'salary', 'deferral_payments', 'total_payments', 'exercised_stock_options', 'bonus', 'restricted_stock', 'shared_receipt_with_poi', 'restricted_stock_deferred', 'total_stock_value', 'expenses', 'loan_advances', 'other', 'director_fees', 'deferred_income', 'long_term_incentive']
+Number of features: 16
+Features removed: ['poi', 'email_address', 'from_poi_to_this_person', 'from_this_person_to_poi', 'from_messages', 'to_messages']
+Pipe steps: 
+[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('selectkbest', SelectKBest(k=10, score_func=<function f_classif at 0x109ecf758>)), ('adaboostclassifier', AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+          learning_rate=1.0, n_estimators=50, random_state=42))]
+Test score: 0.93
+Best cross-validation accuracy: 0.87
+Best parameters: {'selectkbest__k': 8, 'adaboostclassifier__n_estimators': 20}
+Confusion matrix: 
+[[12  1]
+ [ 0  2]]
+Recall score: 1.00
+Precision score: 0.67
+Pipeline(steps=[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('selectkbest', SelectKBest(k=8, score_func=<function f_classif at 0x109ecf758>)), ('adaboostclassifier', AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+          learning_rate=1.0, n_estimators=20, random_state=42))])
+alonavarshal (master *) intro_to_ml_project $ python tester.py
+Pipeline(steps=[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('selectkbest', SelectKBest(k=8, score_func=<function f_classif at 0x109fc4a28>)), ('adaboostclassifier', AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+          learning_rate=1.0, n_estimators=20, random_state=42))])
+	Accuracy: 0.83560	Precision: 0.32428	Recall: 0.21500	F1: 0.25857	F2: 0.23054
+	Total predictions: 15000	True positives:  430	False positives:  896	False negatives: 1570	True negatives: 12104
+
+alonavarshal (master *) intro_to_ml_project $ python poi_id_skb_logreg.py 
+  File "poi_id_skb_logreg.py", line 135
+    from sklearn.linear_model import LogisticRegression()
+                                                       ^
+SyntaxError: invalid syntax
+alonavarshal (master *) intro_to_ml_project $ python poi_id_skb_logreg.py 
+features_list = ['poi', 'deferral_payments', 'expenses', 'deferred_income', 'long_term_incentive', 'fraction_from_poi', 'restricted_stock_deferred', 'shared_receipt_with_poi', 'loan_advances', 'other', 'director_fees', 'bonus', 'total_stock_value', 'restricted_stock', 'salary', 'total_payments', 'fraction_to_poi', 'exercised_stock_options']
+Number of features: 18
+Features removed: ['poi', 'email_address', 'from_poi_to_this_person', 'from_this_person_to_poi', 'from_messages', 'to_messages']
+Pipe steps: 
+[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('selectkbest', SelectKBest(k=10, score_func=<function f_classif at 0x10a0d3a28>)), ('logisticregression', LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
+          penalty='l2', random_state=42, solver='liblinear', tol=0.0001,
+          verbose=0, warm_start=False))]
+Test score: 0.93
+Best cross-validation accuracy: 0.88
+Best parameters: {'selectkbest__k': 13, 'logisticregression__C': 1}
+Confusion matrix: 
+[[13  0]
+ [ 1  1]]
+Recall score: 0.50
+Precision score: 1.00
+Classification report: 
+             precision    recall  f1-score   support
+
+        0.0       0.93      1.00      0.96        13
+        1.0       1.00      0.50      0.67         2
+
+avg / total       0.94      0.93      0.92        15
+
+Pipeline(steps=[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('selectkbest', SelectKBest(k=13, score_func=<function f_classif at 0x10a0d3a28>)), ('logisticregression', LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
+          penalty='l2', random_state=42, solver='liblinear', tol=0.0001,
+          verbose=0, warm_start=False))])
+alonavarshal (master *) intro_to_ml_project $ python tester.py
+Pipeline(steps=[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('selectkbest', SelectKBest(k=13, score_func=<function f_classif at 0x109fc4a28>)), ('logisticregression', LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
+          penalty='l2', random_state=42, solver='liblinear', tol=0.0001,
+          verbose=0, warm_start=False))])
+	Accuracy: 0.87380	Precision: 0.66877	Recall: 0.10600	F1: 0.18300	F2: 0.12745
+	Total predictions: 15000	True positives:  212	False positives:  105	False negatives: 1788	True negatives: 12895
+
+alonavarshal (master *) intro_to_ml_project $ python poi_id_skb_logreg.py 
+features_list = ['poi', 'deferral_payments', 'expenses', 'deferred_income', 'long_term_incentive', 'fraction_from_poi', 'restricted_stock_deferred', 'shared_receipt_with_poi', 'loan_advances', 'other', 'director_fees', 'bonus', 'total_stock_value', 'restricted_stock', 'salary', 'total_payments', 'fraction_to_poi', 'exercised_stock_options']
+Number of features: 18
+Features removed: ['poi', 'email_address', 'from_poi_to_this_person', 'from_this_person_to_poi', 'from_messages', 'to_messages']
+Pipe steps: 
+[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('selectkbest', SelectKBest(k=10, score_func=<function f_classif at 0x109fd4a28>)), ('logisticregression', LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
+          penalty='l2', random_state=42, solver='liblinear', tol=0.0001,
+          verbose=0, warm_start=False))]
+/Users/alonavarshal/anaconda/lib/python2.7/site-packages/sklearn/linear_model/sag.py:286: ConvergenceWarning: The max_iter was reached which means the coef_ did not converge
+  "the coef_ did not converge", ConvergenceWarning)
+Test score: 0.93
+Best cross-validation accuracy: 0.88
+Best parameters: {'selectkbest__k': 6, 'logisticregression__solver': 'newton-cg', 'logisticregression__C': 1}
+Confusion matrix: 
+[[13  0]
+ [ 1  1]]
+Recall score: 0.50
+Precision score: 1.00
+Classification report: 
+             precision    recall  f1-score   support
+
+        0.0       0.93      1.00      0.96        13
+        1.0       1.00      0.50      0.67         2
+
+avg / total       0.94      0.93      0.92        15
+
+Pipeline(steps=[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('selectkbest', SelectKBest(k=6, score_func=<function f_classif at 0x109fd4a28>)), ('logisticregression', LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
+          penalty='l2', random_state=42, solver='newton-cg', tol=0.0001,
+          verbose=0, warm_start=False))])
+alonavarshal (master *) intro_to_ml_project $ python tester.py
+Pipeline(steps=[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('selectkbest', SelectKBest(k=6, score_func=<function f_classif at 0x109fcca28>)), ('logisticregression', LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
+          penalty='l2', random_state=42, solver='newton-cg', tol=0.0001,
+          verbose=0, warm_start=False))])
+	Accuracy: 0.87347	Precision: 0.69466	Recall: 0.09100	F1: 0.16092	F2: 0.11014
+	Total predictions: 15000	True positives:  182	False positives:   80	False negatives: 1818	True negatives: 12920
+
+alonavarshal (master *) intro_to_ml_project $ python poi_id_skb_nb.py 
+features_list = ['poi', 'deferral_payments', 'expenses', 'deferred_income', 'long_term_incentive', 'fraction_from_poi', 'restricted_stock_deferred', 'shared_receipt_with_poi', 'loan_advances', 'other', 'director_fees', 'bonus', 'total_stock_value', 'restricted_stock', 'salary', 'total_payments', 'fraction_to_poi', 'exercised_stock_options']
+Number of features: 18
+Features removed: ['poi', 'email_address', 'from_poi_to_this_person', 'from_this_person_to_poi', 'from_messages', 'to_messages']
+Pipe steps: 
+[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('selectkbest', SelectKBest(k=10, score_func=<function f_classif at 0x109fd3a28>)), ('gaussiannb', GaussianNB(priors=None))]
+Test score: 0.80
+Best cross-validation accuracy: 0.84
+Best parameters: {'selectkbest__k': 6}
+Confusion matrix: 
+[[11  2]
+ [ 1  1]]
+Recall score: 0.50
+Precision score: 0.33
+Classification report: 
+             precision    recall  f1-score   support
+
+        0.0       0.92      0.85      0.88        13
+        1.0       0.33      0.50      0.40         2
+
+avg / total       0.84      0.80      0.82        15
+
+Pipeline(steps=[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('selectkbest', SelectKBest(k=6, score_func=<function f_classif at 0x109fd3a28>)), ('gaussiannb', GaussianNB(priors=None))])
+alonavarshal (master *) intro_to_ml_project $ python tester.py
+Pipeline(steps=[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('selectkbest', SelectKBest(k=6, score_func=<function f_classif at 0x109fc3a28>)), ('gaussiannb', GaussianNB(priors=None))])
+	Accuracy: 0.83567	Precision: 0.36364	Recall: 0.31000	F1: 0.33468	F2: 0.31942
+	Total predictions: 15000	True positives:  620	False positives: 1085	False negatives: 1380	True negatives: 11915
+
+alonavarshal (master *) intro_to_ml_project $ python poi_id_skb_nb_without_eng_features.py 
+features_list = ['poi', 'to_messages', 'deferral_payments', 'expenses', 'deferred_income', 'long_term_incentive', 'restricted_stock_deferred', 'shared_receipt_with_poi', 'loan_advances', 'from_messages', 'other', 'director_fees', 'bonus', 'total_stock_value', 'from_poi_to_this_person', 'from_this_person_to_poi', 'restricted_stock', 'salary', 'total_payments', 'exercised_stock_options']
+Number of features: 20
+Features removed: ['poi', 'email_address', 'fraction_from_poi', 'fraction_to_poi']
+Pipe steps: 
+[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('selectkbest', SelectKBest(k=10, score_func=<function f_classif at 0x109ed3a28>)), ('gaussiannb', GaussianNB(priors=None))]
+Test score: 0.87
+Best cross-validation accuracy: 0.84
+Best parameters: {'selectkbest__k': 8}
+Confusion matrix: 
+[[11  2]
+ [ 0  2]]
+Recall score: 1.00
+Precision score: 0.50
+Classification report: 
+             precision    recall  f1-score   support
+
+        0.0       1.00      0.85      0.92        13
+        1.0       0.50      1.00      0.67         2
+
+avg / total       0.93      0.87      0.88        15
+
+Pipeline(steps=[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('selectkbest', SelectKBest(k=8, score_func=<function f_classif at 0x109ed3a28>)), ('gaussiannb', GaussianNB(priors=None))])
+alonavarshal (master *) intro_to_ml_project $ python tester.py
+Pipeline(steps=[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('selectkbest', SelectKBest(k=8, score_func=<function f_classif at 0x109fcca28>)), ('gaussiannb', GaussianNB(priors=None))])
+	Accuracy: 0.83500	Precision: 0.34901	Recall: 0.27450	F1: 0.30730	F2: 0.28674
+	Total predictions: 15000	True positives:  549	False positives: 1024	False negatives: 1451	True negatives: 11976
+
+alonavarshal (master *) intro_to_ml_project $ python poi_id_pca_nb.py 
+features_list = ['poi', 'deferral_payments', 'expenses', 'deferred_income', 'long_term_incentive', 'fraction_from_poi', 'restricted_stock_deferred', 'shared_receipt_with_poi', 'loan_advances', 'other', 'director_fees', 'bonus', 'total_stock_value', 'restricted_stock', 'salary', 'total_payments', 'fraction_to_poi', 'exercised_stock_options']
+Number of features: 18
+Features removed: ['poi', 'email_address', 'from_poi_to_this_person', 'from_this_person_to_poi', 'from_messages', 'to_messages']
+Pipe steps: 
+[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('pca', PCA(copy=True, iterated_power='auto', n_components=None, random_state=42,
+  svd_solver='auto', tol=0.0, whiten=False)), ('gaussiannb', GaussianNB(priors=None))]
+Test score: 0.87
+Confusion matrix: 
+[[12  1]
+ [ 1  1]]
+Recall score: 0.50
+Precision score: 0.50
+Classification report: 
+             precision    recall  f1-score   support
+
+        0.0       0.92      0.92      0.92        13
+        1.0       0.50      0.50      0.50         2
+
+avg / total       0.87      0.87      0.87        15
+
+Pipeline(steps=[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('pca', PCA(copy=True, iterated_power='auto', n_components=2, random_state=42,
+  svd_solver='auto', tol=0.0, whiten=False)), ('gaussiannb', GaussianNB(priors=None))])
+alonavarshal (master *) intro_to_ml_project $ python tester.py
+Pipeline(steps=[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('pca', PCA(copy=True, iterated_power='auto', n_components=2, random_state=42,
+  svd_solver='auto', tol=0.0, whiten=False)), ('gaussiannb', GaussianNB(priors=None))])
+	Accuracy: 0.86140	Precision: 0.45766	Recall: 0.21350	F1: 0.29117	F2: 0.23900
+	Total predictions: 15000	True positives:  427	False positives:  506	False negatives: 1573	True negatives: 12494
+
+alonavarshal (master *) intro_to_ml_project $ python poi_id.py 
+features_list = ['poi', 'deferral_payments', 'expenses', 'deferred_income', 'long_term_incentive', 'fraction_from_poi', 'restricted_stock_deferred', 'shared_receipt_with_poi', 'loan_advances', 'other', 'director_fees', 'bonus', 'total_stock_value', 'restricted_stock', 'salary', 'total_payments', 'fraction_to_poi', 'exercised_stock_options']
+Number of features: 18
+Features removed: ['poi', 'email_address', 'from_poi_to_this_person', 'from_this_person_to_poi', 'from_messages', 'to_messages']
+Pipe steps: 
+[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('selectkbest', SelectKBest(k=10, score_func=<function f_classif at 0x109fd3a28>)), ('adaboostclassifier', AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+          learning_rate=1.0, n_estimators=50, random_state=42))]
+Test score: 0.93
+Best cross-validation accuracy: 0.88
+Best parameters: {'selectkbest__k': 14, 'adaboostclassifier__n_estimators': 10}
+Confusion matrix: 
+[[12  1]
+ [ 0  2]]
+Recall score: 1.00
+Precision score: 0.67
+Pipeline(steps=[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('selectkbest', SelectKBest(k=14, score_func=<function f_classif at 0x109fd3a28>)), ('adaboostclassifier', AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+          learning_rate=1.0, n_estimators=10, random_state=42))])
+alonavarshal (master *) intro_to_ml_project $ python tester.py
+Pipeline(steps=[('minmaxscaler', MinMaxScaler(copy=True, feature_range=(0, 1))), ('selectkbest', SelectKBest(k=14, score_func=<function f_classif at 0x109fc6a28>)), ('adaboostclassifier', AdaBoostClassifier(algorithm='SAMME.R', base_estimator=None,
+          learning_rate=1.0, n_estimators=10, random_state=42))])
+	Accuracy: 0.86153	Precision: 0.47224	Recall: 0.32750	F1: 0.38677	F2: 0.34889
+	Total predictions: 15000	True positives:  655	False positives:  732	False negatives: 1345	True negatives: 12268
+
+alonavarshal (master *) intro_to_ml_project $ 
