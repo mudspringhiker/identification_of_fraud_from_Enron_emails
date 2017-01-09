@@ -115,7 +115,7 @@ The tester.py results are:
 
 ```
 Accuracy score = 0.86
-Recall score = 0.33
+Recall score = 0.32
 Precision score = 0.47
 ```
 
@@ -151,7 +151,7 @@ Logistic Regression: http://scikit-learn.org/stable/modules/generated/sklearn.li
 
 GridSearchCV: http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html
 
-“An Introduction to Machine Learning with Python by Andreas C. Müller and Sarah Guido (O’Reilly). Copyright 2017 Sarah Guido and Andreas Müller, 978-1-449-36941-5.”
+“An Introduction to Machine Learning with Python by Andreas C. Müller and Sarah Guido (O’Reilly). Copyright 2017 Sarah Guido and Andreas Müller, 978-1-449-36941-5.”
 
 Precision and Recall: https://en.wikipedia.org/wiki/Precision_and_recall
 
